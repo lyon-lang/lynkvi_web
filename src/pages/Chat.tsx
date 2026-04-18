@@ -7,7 +7,7 @@ import {
   Circle, MessageCircle
 } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { chatService, type Conversation, type Message } from '../services/chatService';
+import { chatService, type Message } from '../services/chatService';
 import { useAuth } from '../context/AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
 

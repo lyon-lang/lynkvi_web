@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Star, MessageCircle, Phone, Heart, Share2, Shield, 
-  MapPin, Calendar, Image as ImageIcon, Video, 
+  MapPin, Image as ImageIcon, Video, 
   Lock, ArrowLeft, MoreVertical, Flag, Ban, CreditCard, ChevronRight
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { modelsService, Model, Media } from '../services/modelsService';
+import { modelsService } from '../services/modelsService';
 import { useAuth } from '../context/AuthContext';
 
 export const ModelProfile: React.FC = () => {
