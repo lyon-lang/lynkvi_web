@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Navbar } from './Navbar';
+import { BottomNav } from './BottomNav';
 import { DynamicBackground } from './DynamicBackground';
 import { motion, useScroll, useSpring } from 'framer-motion';
 
@@ -23,9 +24,11 @@ export const Layout: React.FC = () => {
 
       <Navbar />
       
-      <main className="min-h-screen pt-20">
+      <main className="flex-1 pb-24 md:pb-0 md:pt-20">
         <Outlet />
       </main>
+
+      <BottomNav />
 
       <footer className="footer container">
         <div className="footer-content">
