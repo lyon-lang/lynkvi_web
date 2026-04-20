@@ -23,7 +23,7 @@ export const ModelProfile: React.FC = () => {
     enabled: !!id,
   });
 
-  const { data: media, isLoading: mediaLoading } = useQuery({
+  const { data: media } = useQuery({
     queryKey: ['model-media', id],
     queryFn: () => modelsService.getModelMedia(id!),
     enabled: !!id,
@@ -31,7 +31,7 @@ export const ModelProfile: React.FC = () => {
 
   if (modelLoading) {
     return (
-      <div className="container py-20 flex-center">
+      <div className="min-h-screen flex-center">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -40,161 +40,125 @@ export const ModelProfile: React.FC = () => {
   if (!model) {
     return (
       <div className="container py-20 text-center">
-        <h2 className="text-2xl font-bold mb-4">Model not found</h2>
-        <Link to="/explore" className="text-primary font-semibold">Back to Explore</Link>
+        <h2 className="text-2xl font-black mb-4">Model not found</h2>
+        <Link to="/explore" className="btn-primary">Back to Explore</Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background text-white pb-20">
-      {/* Back Button & Header Actions */}
-      <div className="container relative z-20 pt-6 flex justify-between items-center h-0 overflow-visible">
+    <div className="min-h-screen bg-bg-deep text-white pb-32">
+      {/* Top Navigation */}
+      <div className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center bg-gradient-to-b from-black/50 to-transparent">
         <button 
           onClick={() => navigate(-1)} 
           className="p-3 glass rounded-full hover:bg-white/10 transition-colors"
         >
           <ArrowLeft size={20} />
         </button>
-        <div className="relative">
+        <div className="flex gap-4">
+          <button className="p-3 glass rounded-full hover:bg-white/10 transition-colors">
+            <Share2 size={20} />
+          </button>
           <button 
             onClick={() => setShowOptions(!showOptions)}
-            className="p-3 glass rounded-full hover:bg-white/10 transition-colors"
+            className="p-3 glass rounded-full hover:bg-white/10 transition-colors relative"
           >
             <MoreVertical size={20} />
+            <AnimatePresence>
+              {showOptions && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                  className="absolute right-0 mt-4 w-48 glass border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 p-2"
+                >
+                  <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-white/5 transition-colors rounded-xl text-sm font-medium text-left">
+                    <Flag size={18} className="text-white/50" /> Report User
+                  </button>
+                  <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-red-500/10 transition-colors rounded-xl text-sm font-medium text-red-500 text-left">
+                    <Ban size={18} /> Block
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </button>
-          <AnimatePresence>
-            {showOptions && (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                className="absolute right-0 mt-2 w-48 glass border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 p-2"
-              >
-                <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-white/5 transition-colors rounded-xl text-sm font-medium text-left">
-                  <Share2 size={18} className="text-white/50" /> Share Profile
-                </button>
-                <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-white/5 transition-colors rounded-xl text-sm font-medium text-left">
-                  <Flag size={18} className="text-white/50" /> Report User
-                </button>
-                <div className="h-px bg-white/10 my-1" />
-                <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-red-500/10 transition-colors rounded-xl text-sm font-medium text-red-400 text-left text-red-500">
-                  <Ban size={18} /> Block User
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
 
-      {/* Hero / Cover Section */}
-      <div className="relative h-[40vh] md:h-[50vh] w-full overflow-hidden">
+      {/* Hero Cover */}
+      <div className="relative h-[60vh] w-full overflow-hidden">
         <img 
-          src={model.profileImageUrl || 'https://via.placeholder.com/1200x600'} 
+          src={model.profileImageUrl || 'https://via.placeholder.com/1200x1200'} 
           className="w-full h-full object-cover"
           alt={model.displayName}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-deep via-transparent to-black/20" />
       </div>
 
-      <div className="container -mt-32 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Sidebar / Profile Info */}
-          <div className="lg:w-1/3">
-            <div className="glass p-8 rounded-[40px] border border-white/10 shadow-2xl backdrop-blur-xl">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h1 className="text-3xl font-extrabold flex items-center gap-3">
-                    {model.displayName}
-                    {model.isOnline && <div className="w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_10px_#10b981] animate-pulse" />}
-                  </h1>
-                  <p className="text-primary font-medium mt-1">@{model.userId}</p>
-                </div>
-                <button className="p-4 glass rounded-3xl hover:bg-red-500/20 transition-all border-white/10 group">
-                  <Heart size={24} className="group-hover:scale-110 group-hover:fill-red-500 group-hover:text-red-500 transition-all" />
-                </button>
+      {/* Content */}
+      <div className="container -mt-20 relative z-10 px-4">
+        <div className="flex flex-col gap-6">
+          <div className="flex items-end justify-between">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-4xl font-black">{model.displayName}</h1>
+                {model.isOnline && (
+                  <div className="w-3 h-3 bg-online rounded-full shadow-[0_0_12px_var(--online)] animate-pulse" />
+                )}
               </div>
-
-              <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="glass p-4 rounded-2xl text-center border-white/5">
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-wider mb-1">Rating</p>
-                  <p className="font-bold flex items-center justify-center gap-1">
-                    <Star size={14} fill="#fbbf24" className="text-amber-400" />
-                    {model.ratingAverage?.toFixed(1)}
-                  </p>
-                </div>
-                <div className="glass p-4 rounded-2xl text-center border-white/5">
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-wider mb-1">Fans</p>
-                  <p className="font-bold">{model.followerCount || '2.4K'}</p>
-                </div>
-                <div className="glass p-4 rounded-2xl text-center border-white/5">
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-wider mb-1">Status</p>
-                  <p className={`font-bold ${model.isOnline ? 'text-emerald-400' : 'text-white/40'}`}>
-                    {model.isOnline ? 'Online' : 'Offline'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <button 
-                  onClick={() => isAuthenticated ? navigate(`/chat/${model.userId}`) : navigate('/login')}
-                  className="btn-primary w-full py-5 rounded-3xl flex-center gap-3 text-lg"
-                >
-                  <MessageCircle size={22} /> Send Message
-                </button>
-                <div className="flex gap-4">
-                  <button className="flex-1 glass border-white/10 py-4 rounded-3xl flex-center gap-3 font-bold hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all">
-                    <Phone size={20} className="text-emerald-500" /> ${model.callPricePerMinute}/min
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-8 pt-8 border-t border-white/5 space-y-4">
-                <div className="flex items-center gap-3 text-white/60">
-                  <MapPin size={18} />
-                  <span>{model.country || 'International'}</span>
-                </div>
-                <div className="flex items-center gap-3 text-white/60">
-                  <Shield size={18} />
-                  <span>Verified Creator</span>
-                </div>
+              <div className="flex items-center gap-3 text-white/60 font-medium">
+                <MapPin size={16} className="text-primary" />
+                <span>{model.country || 'International'}</span>
+                <span className="w-1 h-1 bg-white/20 rounded-full" />
+                <span>Verified Creator</span>
               </div>
             </div>
+            <button className="p-5 glass rounded-3xl hover:bg-red-500/20 transition-all border-white/10 group">
+              <Heart size={28} className="group-hover:fill-red-500 group-hover:text-red-500 transition-all" />
+            </button>
+          </div>
 
-            {/* Fan Club Promo */}
-            <div className="mt-8 glass p-6 rounded-[32px] border border-amber-500/20 bg-gradient-to-br from-amber-500/10 to-transparent flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500 flex-center shadow-[0_0_20px_rgba(245,158,11,0.3)]">
-                  <CreditCard className="text-white" size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold">Join Fan Club</h4>
-                  <p className="text-xs text-white/50">Unlock exclusive media</p>
-                </div>
-              </div>
-              <ChevronRight className="text-amber-500" size={24} />
+          {/* Stats Bar */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="glass p-4 rounded-3xl text-center">
+              <p className="text-[10px] text-white/40 uppercase font-black tracking-widest mb-1">Rating</p>
+              <p className="text-xl font-black flex-center gap-1">
+                <Star size={16} fill="var(--accent)" className="text-accent" />
+                {model.ratingAverage?.toFixed(1)}
+              </p>
+            </div>
+            <div className="glass p-4 rounded-3xl text-center">
+              <p className="text-[10px] text-white/40 uppercase font-black tracking-widest mb-1">Followers</p>
+              <p className="text-xl font-black">{model.followerCount || '2.4K'}</p>
+            </div>
+            <div className="glass p-4 rounded-3xl text-center">
+              <p className="text-[10px] text-white/40 uppercase font-black tracking-widest mb-1">Status</p>
+              <p className={`text-xl font-black ${model.isOnline ? 'text-online' : 'text-white/40'}`}>
+                {model.isOnline ? 'Online' : 'Offline'}
+              </p>
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="lg:w-2/3">
+          {/* Tabs */}
+          <div className="mt-4">
             <div className="flex gap-8 mb-8 border-b border-white/5">
               <button 
                 onClick={() => setActiveTab('about')}
-                className={`pb-4 px-2 font-bold transition-all relative ${activeTab === 'about' ? 'text-white' : 'text-white/40'}`}
+                className={`pb-4 px-2 text-lg font-black transition-all relative ${activeTab === 'about' ? 'text-white' : 'text-white/40'}`}
               >
                 About
                 {activeTab === 'about' && (
-                  <motion.div layoutId="tab-active" className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full" />
+                  <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full" />
                 )}
               </button>
               <button 
                 onClick={() => setActiveTab('media')}
-                className={`pb-4 px-2 font-bold transition-all relative ${activeTab === 'media' ? 'text-white' : 'text-white/40'}`}
+                className={`pb-4 px-2 text-lg font-black transition-all relative ${activeTab === 'media' ? 'text-white' : 'text-white/40'}`}
               >
-                Media {media?.length ? `(${media.length})` : ''}
+                Gallery
                 {activeTab === 'media' && (
-                  <motion.div layoutId="tab-active" className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full" />
+                  <motion.div layoutId="tab-underline" className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-full" />
                 )}
               </button>
             </div>
@@ -203,71 +167,73 @@ export const ModelProfile: React.FC = () => {
               {activeTab === 'about' ? (
                 <motion.div 
                   key="about" 
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-10"
+                  exit={{ opacity: 0, x: -10 }}
+                  className="space-y-8"
                 >
                   <section>
-                    <h3 className="text-xl font-bold mb-4">Bio</h3>
-                    <p className="text-white/70 leading-relaxed text-lg whitespace-pre-line">
-                      {model.bio || `${model.displayName} is a premium performer on Lynkvi, known for ${model.category} content and engaging interactions. Connect today for a personalized experience.`}
+                    <h3 className="text-lg font-black mb-3 text-white/50 uppercase tracking-widest">Biography</h3>
+                    <p className="text-white/80 leading-relaxed text-lg">
+                      {model.bio || `${model.displayName} is a verified creator, bringing premium content and engaging interactions to Lynkvi.`}
                     </p>
                   </section>
 
-                  {/* Interests / Categories */}
-                  <section>
-                    <h3 className="text-xl font-bold mb-4">Speaks</h3>
-                    <div className="flex flex-wrap gap-3">
-                      {['English', 'Spanish', 'French'].map(lang => (
-                        <span key={lang} className="px-4 py-2 glass rounded-2xl border-white/5 text-sm font-medium">{lang}</span>
-                      ))}
+                  <section className="glass p-6 rounded-[32px] border-primary/20 bg-primary/5">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-accent/20 flex-center">
+                        <CreditCard className="text-accent" size={24} />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-bold">Fan Club</h4>
+                        <p className="text-xs text-white/50">Join for exclusive media & chats</p>
+                      </div>
+                      <ChevronRight className="text-white/30" />
                     </div>
                   </section>
                 </motion.div>
               ) : (
                 <motion.div 
                   key="media"
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="grid grid-cols-3 gap-2"
                 >
-                  {mediaLoading ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="aspect-square glass rounded-3xl animate-pulse" />
-                      ))}
-                    </div>
-                  ) : media && media.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                      {media.map((item) => (
-                        <div key={item.id} className="relative aspect-square group cursor-pointer">
-                          <img 
-                            src={item.url} 
-                            className="w-full h-full object-cover rounded-[32px] border border-white/5 group-hover:scale-[1.02] transition-transform duration-500" 
-                            alt="Model Media"
-                          />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-[32px] flex-center">
-                            {item.type === 'video' ? <Video size={32} /> : <ImageIcon size={32} />}
-                          </div>
-                          {item.isPremium && (
-                            <div className="absolute top-4 right-4 glass p-2 rounded-xl backdrop-blur-md">
-                              <Lock size={16} className="text-amber-500" />
-                            </div>
-                          )}
+                  {media?.length ? media.map((item: any) => (
+                    <div key={item.id} className="relative aspect-square rounded-2xl overflow-hidden group">
+                      <img src={item.url} className="w-full h-full object-cover transition-transform group-hover:scale-110" alt="" />
+                      {item.isPremium && (
+                        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex-center">
+                          <Lock size={20} className="text-accent" />
                         </div>
-                      ))}
+                      )}
                     </div>
-                  ) : (
-                    <div className="text-center py-20 glass rounded-[40px] border border-dashed border-white/10">
+                  )) : (
+                    <div className="col-span-full py-20 text-center glass rounded-3xl border-dashed border-white/10">
                       <ImageIcon className="mx-auto mb-4 text-white/20" size={48} />
-                      <p className="text-white/40">No media uploaded yet.</p>
+                      <p className="text-white/40">No media gallery yet</p>
                     </div>
                   )}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+        </div>
+      </div>
+
+      {/* Sticky Bottom Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 p-6 bg-gradient-to-t from-bg-deep to-transparent">
+        <div className="max-w-md mx-auto flex gap-4">
+          <button 
+            onClick={() => isAuthenticated ? navigate(`/chat/${model.userId}`) : navigate('/login')}
+            className="flex-1 btn-secondary h-16 rounded-3xl !border-primary/30 !bg-primary/10"
+          >
+            <MessageCircle size={24} className="mr-2 text-primary" /> Chat
+          </button>
+          <button className="flex-[1.5] btn-primary h-16 rounded-3xl">
+            <Phone size={24} className="mr-2" /> Call Now
+          </button>
         </div>
       </div>
     </div>

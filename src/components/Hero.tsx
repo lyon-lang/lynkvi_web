@@ -45,8 +45,7 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         <motion.h1 
-          className="hero-title"
-          style={{ x: mouseX, y: mouseY }}
+          className="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-[1.1]"
         >
           {titleWords.map((word, i) => (
             <motion.span
@@ -56,10 +55,9 @@ export const Hero: React.FC = () => {
               transition={{ 
                 duration: 0.5, 
                 delay: 0.2 + i * 0.05,
-                ease: [0.33, 1, 0.68, 1]
               }}
+              className={word === "Influencers" ? "text-primary" : "text-white"}
               style={{ display: 'inline-block', marginRight: '0.25em' }}
-              className={word === "Influencers" ? "gradient-text" : ""}
             >
               {word}
             </motion.span>
@@ -79,17 +77,17 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="hero-btns"
+          className="flex flex-col sm:flex-row gap-4 mt-8"
         >
           <Link 
             to="/explore"
-            className="btn-primary hero-btn flex-center gap-2 no-underline"
+            className="btn-primary"
           >
-            Explore Models <ArrowRight size={20} />
+            Explore Now <ArrowRight size={20} className="ml-2" />
           </Link>
           <Link 
             to="/register"
-            className="hero-btn-secondary glass no-underline"
+            className="btn-secondary"
           >
             Become a Creator
           </Link>

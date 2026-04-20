@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Star, MessageCircle, Phone, Heart, SlidersHorizontal, CheckCircle2 } from 'lucide-react';
+import { Search, Star, MessageCircle, Phone, MapPin, SlidersHorizontal, CheckCircle2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { modelsService, type Model } from '../services/modelsService';
+import { ModelCard } from '../components/ModelCard';
 import { Link } from 'react-router-dom';
 
 const CATEGORIES = ['All', 'Lifestyle', 'Gaming', 'Fitness', 'ASMR', 'Cosplay', 'Music'];
@@ -96,7 +97,7 @@ export const Explore: React.FC = () => {
       <div className="grid-layout">
         {isLoading ? (
           Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="model-card glass h-[400px] animate-pulse bg-white/5" />
+            <div key={i} className="model-card glass h-[300px] animate-pulse" />
           ))
         ) : filteredModels?.length === 0 ? (
           <div className="w-full text-center text-white/50 col-span-full py-20 glass rounded-3xl border border-dashed border-white/10">
@@ -113,58 +114,3 @@ export const Explore: React.FC = () => {
   );
 };
 
-const ModelCard: React.FC<{ model: Model; index: number }> = ({ model, index }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.4, delay: index * 0.05 }}
-    className="model-card glass"
-  >
-    <Link to={`/profile/${model.userId}`} className="no-underline">
-      <div className="card-image-wrapper">
-        <img 
-          src={model.profileImageUrl || 'https://via.placeholder.com/400x600'} 
-          alt={model.displayName} 
-          className="card-image" 
-        />
-        {model.isOnline && (
-          <div className="online-badge">
-            <div className="online-dot" />
-            <span>Online</span>
-          </div>
-        )}
-        <button className="like-btn glass" onClick={(e) => { e.preventDefault(); /* TODO: Like */ }}>
-          <Heart size={18} fill={model.isFavorited ? "currentColor" : "none"} className={model.isFavorited ? "text-red-500" : ""} />
-        </button>
-      </div>
-
-      <div className="card-content">
-        <div className="card-header">
-          <h3 className="card-name text-white">{model.displayName}</h3>
-          <div className="card-rating">
-            <Star size={14} fill="currentColor" />
-            <span>{model.ratingAverage?.toFixed(1) || '0.0'}</span>
-          </div>
-        </div>
-
-        <p className="card-category">{model.category || 'Lifestyle'}</p>
-
-        <div className="card-footer">
-          <div className="price-tag">
-            <span className="price text-white">${model.callPricePerMinute?.toFixed(2) || '0.00'}</span>
-            <span className="unit">/ min</span>
-          </div>
-          
-          <div className="action-btns">
-            <Link to={`/chat/${model.userId}`} className="icon-btn glass" title="Send Message" onClick={(e) => e.stopPropagation()}>
-              <MessageCircle size={18} />
-            </Link>
-            <button className="icon-btn primary" title="Direct Call" onClick={(e) => { e.preventDefault(); e.stopPropagation(); /* TODO: Call */ }}>
-              <Phone size={18} />
-            </button>
-          </div>
-        </div>
-      </div>
-    </Link>
-  </motion.div>
-);
