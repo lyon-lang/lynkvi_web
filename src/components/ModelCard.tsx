@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, MessageCircle, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Model } from '../services/modelsService';
+import { type Model } from '../services/modelsService';
 
 interface ModelCardProps {
   model: Model;
