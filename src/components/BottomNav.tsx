@@ -1,11 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Home, Compass, MessageCircle, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 
 export const BottomNav: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  // Hide BottomNav on Model Profile pages to avoid overlap with action bar
+  const isProfilePage = location.pathname.startsWith('/profile/');
+  if (isProfilePage) return null;
 
   const navItems = [
     { icon: Home, label: 'Home', path: '/' },
@@ -20,14 +25,14 @@ export const BottomNav: React.FC = () => {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-      <div className="glass mx-4 mb-4 rounded-3xl h-16 flex items-center justify-around px-2 shadow-2xl">
+      <div className="glass mx-4 mb-4 rounded-3xl h-16 flex items-center justify-around px-2 shadow-2xl" style={{ border: '1px solid var(--border)' }}>
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) => 
               `flex flex-col items-center gap-1 transition-all duration-300 relative px-4 ${
-                isActive ? 'text-primary' : 'text-text-dim'
+                isActive ? 'text-primary' : 'text-white/40'
               }`
             }
           >

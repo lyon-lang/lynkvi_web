@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Phone, Globe, LogIn, User as UserIcon, LogOut, Settings, CreditCard } from 'lucide-react';
+import { MessageSquare, Phone, Globe, LogIn, User as UserIcon, LogOut, Settings, CreditCard, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -42,7 +42,8 @@ export const Navbar: React.FC = () => {
           <span className="logo-text">Lynkvi</span>
         </Link>
 
-        <div className="nav-links flex items-center gap-8">
+        {/* Desktop Nav Links */}
+        <div className="nav-links hidden md:flex items-center gap-8">
           <Link to="/explore" className={`nav-link ${isActive('/explore') ? 'active' : ''}`}>
             <Globe size={18} /> Explore
           </Link>
@@ -67,7 +68,7 @@ export const Navbar: React.FC = () => {
                 <div className="w-8 h-8 rounded-full flex-center text-xs font-bold" style={{ width: '32px', height: '32px', background: 'var(--primary-gradient)', border: '1px solid rgba(255,255,255,0.3)' }}>
                   {user?.displayName?.[0] || 'U'}
                 </div>
-                <span className="text-sm font-semibold">{user?.displayName}</span>
+                <span className="text-sm font-semibold hidden sm:inline">{user?.displayName}</span>
               </motion.button>
 
               <AnimatePresence>
@@ -110,11 +111,11 @@ export const Navbar: React.FC = () => {
               </AnimatePresence>
             </div>
           ) : (
-            <div className="flex items-center gap-4">
-              <Link to="/login" className="btn-secondary text-sm">
+            <div className="flex items-center gap-2 md:gap-4">
+              <Link to="/login" className="btn-secondary text-xs sm:text-sm">
                 Sign In
               </Link>
-              <Link to="/register" className="btn-primary text-sm">
+              <Link to="/register" className="btn-primary text-xs sm:text-sm">
                 Get Started
               </Link>
             </div>
