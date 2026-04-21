@@ -302,16 +302,23 @@ button { font-family: inherit; }
 
 .model-card {
   position: relative;
-  border-radius: 24px;
+  border-radius: 32px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   background: var(--bg-card);
   border: 1px solid var(--border);
+  height: 100%;
 }
 
 .model-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 45, 85, 0.3);
+}
+
+.card-image-wrapper {
+  position: relative;
+  background: #1a1a24;
 }
 
 /* CTA Section */

@@ -23,11 +23,27 @@ export interface Media {
   price?: number;
 }
 
+// Transformation helper
+const mapBackendToModel = (data: any): Model => ({
+  id: data.id,
+  userId: data.userId || data.user?.id,
+  displayName: data.user?.name || data.displayName || 'Unknown Artist',
+  category: data.category || 'Artist',
+  ratingAverage: parseFloat(data.rating) || 0,
+  callPricePerMinute: data.ratePerMinute || 0,
+  isOnline: data.isOnline || false,
+  profileImageUrl: data.user?.avatarUrl || data.profileImageUrl || '',
+  country: data.location?.name || data.country || 'Global',
+  bio: data.bio || '',
+  followerCount: data.followerCount || 0,
+  isFavorited: data.isFavorited || false,
+});
+
 export const modelsService = {
   getFeaturedModels: async (limit: number = 8): Promise<Model[]> => {
     try {
       const response = await api.get(`/models/featured?limit=${limit}`);
-      return response.data;
+      return (response.data || []).map(mapBackendToModel);
     } catch (error) {
       console.error('Failed to fetch featured models:', error);
       return [];
@@ -37,7 +53,7 @@ export const modelsService = {
   getAllModels: async (filters: any = {}): Promise<Model[]> => {
     try {
       const response = await api.get('/models', { params: filters });
-      return response.data;
+      return (response.data || []).map(mapBackendToModel);
     } catch (error) {
       console.error('Failed to fetch models:', error);
       return [];
@@ -47,7 +63,7 @@ export const modelsService = {
   getModelById: async (id: string): Promise<Model | null> => {
     try {
       const response = await api.get(`/models/${id}`);
-      return response.data;
+      return mapBackendToModel(response.data);
     } catch (error) {
       console.error(`Failed to fetch model ${id}:`, error);
       return null;
