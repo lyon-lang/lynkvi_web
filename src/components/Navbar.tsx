@@ -35,14 +35,14 @@ export const Navbar: React.FC = () => {
       className={`nav-header ${scrolled ? 'scrolled' : ''}`}
     >
       <nav className="nav-container glass">
-        <Link to="/" className="logo-group no-underline">
+        <Link to="/" className="logo-group">
           <div className="logo-circle">
-            <span>L</span>
+            <span className="text-white">L</span>
           </div>
           <span className="logo-text">Lynkvi</span>
         </Link>
 
-        <div className="nav-links">
+        <div className="nav-links flex items-center gap-8">
           <Link to="/explore" className={`nav-link ${isActive('/explore') ? 'active' : ''}`}>
             <Globe size={18} /> Explore
           </Link>
@@ -54,7 +54,7 @@ export const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        <div className="nav-actions">
+        <div className="nav-actions flex items-center gap-4">
           {isAuthenticated ? (
             <div className="relative">
               <motion.button 
@@ -62,42 +62,45 @@ export const Navbar: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn-secondary flex items-center gap-3 glass py-2 px-4 rounded-full border-white/20"
+                style={{ padding: '8px 16px' }}
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex-center text-xs font-bold border border-white/30">
+                <div className="w-8 h-8 rounded-full flex-center text-xs font-bold" style={{ width: '32px', height: '32px', background: 'var(--primary-gradient)', border: '1px solid rgba(255,255,255,0.3)' }}>
                   {user?.displayName?.[0] || 'U'}
                 </div>
-                <span className="text-sm font-semibold max-w-[100px] truncate">{user?.displayName}</span>
+                <span className="text-sm font-semibold">{user?.displayName}</span>
               </motion.button>
 
               <AnimatePresence>
                 {showProfileMenu && (
                   <>
-                    <div className="fixed inset-0 z-40" onClick={() => setShowProfileMenu(false)} />
+                    <div className="fixed inset-0 z-20" onClick={() => setShowProfileMenu(false)} />
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute right-0 mt-4 w-56 glass border-white/10 rounded-2xl overflow-hidden z-50 p-2 shadow-2xl"
+                      className="absolute right-0 mt-4 glass border-white/10 rounded-2xl overflow-hidden z-50 p-2 shadow-2xl"
+                      style={{ width: '224px', top: '100%' }}
                     >
-                      <div className="px-4 py-3 border-b border-white/10 mb-2">
-                        <p className="text-xs text-white/40 uppercase font-bold tracking-wider">Account</p>
-                        <p className="text-sm font-semibold text-secondary flex items-center gap-2 mt-1">
+                      <div className="px-4 py-3 mb-2" style={{ borderBottom: '1px solid var(--border)' }}>
+                        <p className="text-xs text-white/40 uppercase font-bold tracking-widest">Account</p>
+                        <p className="text-sm font-semibold text-primary flex items-center gap-2 mt-1">
                           <CreditCard size={14} /> {user?.coins || 0} Coins
                         </p>
                       </div>
                       
-                      <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-white/5 transition-colors rounded-xl text-sm font-medium text-left">
+                      <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-white/5 transition-colors rounded-xl text-sm font-medium text-left" style={{ border: 'none', background: 'transparent', color: 'white', cursor: 'pointer' }}>
                         <UserIcon size={18} className="text-white/50" /> Profile
                       </button>
-                      <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-white/5 transition-colors rounded-xl text-sm font-medium text-left">
+                      <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-white/5 transition-colors rounded-xl text-sm font-medium text-left" style={{ border: 'none', background: 'transparent', color: 'white', cursor: 'pointer' }}>
                         <Settings size={18} className="text-white/50" /> Settings
                       </button>
                       
-                      <div className="h-px bg-white/10 my-2" />
+                      <div className="my-2" style={{ height: '1px', background: 'var(--border)' }} />
                       
                       <button 
                         onClick={handleLogout}
-                        className="flex items-center gap-3 w-full px-4 py-3 hover:bg-red-500/10 transition-colors rounded-xl text-sm font-medium text-red-400 text-left"
+                        className="flex items-center gap-3 w-full px-4 py-3 hover:bg-red-500/10 transition-colors rounded-xl text-sm font-medium text-left"
+                        style={{ border: 'none', background: 'transparent', color: '#ff4444', cursor: 'pointer' }}
                       >
                         <LogOut size={18} /> Sign Out
                       </button>
@@ -107,14 +110,14 @@ export const Navbar: React.FC = () => {
               </AnimatePresence>
             </div>
           ) : (
-            <>
-              <Link to="/login" className="btn-secondary no-underline">
-                <LogIn size={18} /> Sign In
+            <div className="flex items-center gap-4">
+              <Link to="/login" className="btn-secondary text-sm">
+                Sign In
               </Link>
-              <Link to="/register" className="btn-primary no-underline">
+              <Link to="/register" className="btn-primary text-sm">
                 Get Started
               </Link>
-            </>
+            </div>
           )}
         </div>
       </nav>

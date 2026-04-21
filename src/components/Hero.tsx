@@ -33,89 +33,96 @@ export const Hero: React.FC = () => {
     >
       <motion.div style={{ y: y1, opacity }} className="hero-glow" />
       
-      <div className="container hero-content">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, type: "spring" }}
-          className="hero-badge animate-float"
-        >
-          <Sparkles size={16} />
-          <span>New: Global Live Gifting is here!</span>
-        </motion.div>
-
-        <motion.h1 
-          className="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-[1.1]"
-        >
-          {titleWords.map((word, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.5, 
-                delay: 0.2 + i * 0.05,
-              }}
-              className={word === "Influencers" ? "text-primary" : "text-white"}
-              style={{ display: 'inline-block', marginRight: '0.25em' }}
-            >
-              {word}
-            </motion.span>
-          ))}
-        </motion.h1>
-
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="hero-subtitle"
-        >
-          Experience high-quality video calls, real-time messaging, and exclusive content in a secure, premium environment.
-        </motion.p>
-
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="flex flex-col sm:flex-row gap-4 mt-8"
-        >
-          <Link 
-            to="/explore"
-            className="btn-primary"
+      <div className="container relative z-10">
+        <div className="flex flex-col items-center text-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, type: "spring" }}
+            className="glass px-4 py-2 rounded-full flex items-center gap-2 mb-6"
+            style={{ border: '1px solid var(--primary)' }}
           >
-            Explore Now <ArrowRight size={20} className="ml-2" />
-          </Link>
-          <Link 
-            to="/register"
-            className="btn-secondary"
-          >
-            Become a Creator
-          </Link>
-        </motion.div>
+            <Sparkles size={16} className="text-primary" />
+            <span className="text-xs font-bold uppercase tracking-widest">New: Global Live Gifting is here!</span>
+          </motion.div>
 
-        <motion.div 
-          style={{ y: y2 }}
-          className="hero-stats"
-        >
-          {[
-            { icon: Zap, value: "124k+", label: "Active Users" },
-            { icon: Shield, value: "Secure", label: "Verified Profiles" }
-          ].map((stat, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.2 + i * 0.2 }}
-              className="hero-stat"
+          <motion.h1 
+            className="text-4xl md:text-7xl font-black mb-6 tracking-tight"
+            style={{ maxWidth: '900px', lineHeight: '1.1' }}
+          >
+            {titleWords.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: 0.2 + i * 0.05,
+                }}
+                className={word === "Influencers" ? "text-primary" : "text-white"}
+                style={{ display: 'inline-block', marginRight: '0.25em' }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="text-lg text-white/60 mb-8"
+            style={{ maxWidth: '600px' }}
+          >
+            Experience high-quality video calls, real-time messaging, and exclusive content in a secure, premium environment.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="flex flex-col sm:flex-row gap-4"
+          >
+            <Link 
+              to="/explore"
+              className="btn-primary px-10 py-4 text-lg"
             >
-              <stat.icon size={20} className="stat-icon" />
-              <div>
-                <span className="stat-value">{stat.value}</span>
-                <span className="stat-label">{stat.label}</span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              Explore Now <ArrowRight size={20} className="ml-2" />
+            </Link>
+            <Link 
+              to="/register"
+              className="btn-secondary px-10 py-4 text-lg"
+            >
+              Become a Creator
+            </Link>
+          </motion.div>
+
+          <motion.div 
+            style={{ y: y2 }}
+            className="flex items-center gap-10 mt-12"
+          >
+            {[
+              { icon: Zap, value: "124k+", label: "Active Users" },
+              { icon: Shield, value: "Secure", label: "Verified Profiles" }
+            ].map((stat, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2 + i * 0.2 }}
+                className="flex items-center gap-3"
+              >
+                <div className="w-10 h-10 rounded-xl glass flex-center">
+                  <stat.icon size={20} className="text-secondary" />
+                </div>
+                <div className="text-left">
+                  <p className="text-xl font-black">{stat.value}</p>
+                  <p className="text-xs text-white/40 uppercase font-bold tracking-widest">{stat.label}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </div>
 
       {/* Decorative Floating Elements */}
@@ -125,9 +132,10 @@ export const Hero: React.FC = () => {
           rotate: [0, 5, 0]
         }}
         transition={{ duration: 5, repeat: Infinity }}
-        className="absolute bottom-20 left-10 opacity-20 pointer-events-none"
+        className="absolute bottom-20 left-10 opacity-20 pointer-events-none md:block"
+        style={{ display: 'none' }}
       >
-        <div className="w-16 h-16 rounded-xl glass border-primary rotate-12" />
+        <div className="w-16 h-16 rounded-xl glass" style={{ border: '1px solid var(--primary)', transform: 'rotate(12deg)' }} />
       </motion.div>
     </section>
   );
