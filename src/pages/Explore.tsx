@@ -31,24 +31,26 @@ export const Explore: React.FC = () => {
       {/* Header & Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <div>
-          <h1 className="text-4xl font-extrabold mb-2">Discovery</h1>
+          <h1 className="text-4xl font-black mb-2">Discovery</h1>
           <p className="text-white/50">Find and connect with top-rated performers.</p>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-primary transition-colors" size={20} />
+          <div className="relative" style={{ flex: 1, minWidth: '280px' }}>
+            <Search className="absolute text-white/30" size={20} style={{ left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
             <input 
               type="text" 
               placeholder="Search creators..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-6 focus:outline-none focus:border-primary/50 transition-all w-full md:w-80 glass"
+              className="glass w-full rounded-2xl py-4 pl-12 pr-6 text-white outline-none focus:border-primary/50 transition-all font-semibold"
+              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)' }}
             />
           </div>
           <button 
             onClick={() => setShowFilters(!showFilters)}
-            className={`p-3 rounded-2xl border transition-all glass ${showFilters ? 'border-primary text-primary' : 'border-white/10 text-white/70'}`}
+            className={`p-4 rounded-2xl border transition-all glass flex-center ${showFilters ? 'text-primary' : 'text-white/70'}`}
+            style={{ borderColor: showFilters ? 'var(--primary)' : 'var(--border)', cursor: 'pointer' }}
           >
             <SlidersHorizontal size={20} />
           </button>
@@ -61,11 +63,12 @@ export const Explore: React.FC = () => {
           <button
             key={cat}
             onClick={() => setCategory(cat)}
-            className={`px-6 py-2.5 rounded-full whitespace-nowrap transition-all border ${
+            className={`px-6 py-3 rounded-full whitespace-nowrap transition-all font-bold text-sm ${
               category === cat 
-                ? 'bg-primary border-primary text-white shadow-lg shadow-primary/20' 
+                ? 'bg-primary border-primary text-white' 
                 : 'bg-white/5 border-white/10 text-white/60 hover:border-white/30'
             }`}
+            style={{ border: '1px solid', cursor: 'pointer', background: category === cat ? 'var(--primary-gradient)' : 'rgba(255,255,255,0.05)', borderColor: category === cat ? 'var(--primary)' : 'var(--border)' }}
           >
             {cat}
           </button>
@@ -80,14 +83,13 @@ export const Explore: React.FC = () => {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden mb-10"
           >
-            <div className="glass p-6 rounded-3xl border border-white/10 flex flex-wrap gap-8">
+            <div className="glass p-6 rounded-3xl flex flex-wrap gap-8" style={{ border: '1px solid var(--border)' }}>
               <div className="flex items-center gap-3 cursor-pointer select-none" onClick={() => setOnlyOnline(!onlyOnline)}>
-                <div className={`w-6 h-6 rounded-md border flex-center transition-all ${onlyOnline ? 'bg-primary border-primary' : 'border-white/20'}`}>
+                <div className={`w-6 h-6 rounded-lg border flex-center transition-all ${onlyOnline ? 'bg-primary' : ''}`} style={{ borderColor: onlyOnline ? 'var(--primary)' : 'var(--border)' }}>
                   {onlyOnline && <CheckCircle2 size={16} className="text-white" />}
                 </div>
-                <span className="text-sm font-medium">Show only online models</span>
+                <span className="text-sm font-bold text-white/80">Show only online models</span>
               </div>
-              {/* Add more filters as needed */}
             </div>
           </motion.div>
         )}
@@ -97,12 +99,12 @@ export const Explore: React.FC = () => {
       <div className="grid-layout">
         {isLoading ? (
           Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="model-card glass h-[300px] animate-pulse" />
+            <div key={i} className="model-card glass h-full" style={{ height: '300px', animation: 'pulse 1.5s infinite' }} />
           ))
         ) : filteredModels?.length === 0 ? (
-          <div className="w-full text-center text-white/50 col-span-full py-20 glass rounded-3xl border border-dashed border-white/10">
-            <p className="text-xl">No models found matching your criteria.</p>
-            <button onClick={() => {setCategory('All'); setSearch(''); setOnlyOnline(false);}} className="text-primary mt-4 font-semibold">Clear all filters</button>
+          <div className="w-full text-center py-20 glass rounded-3xl" style={{ borderStyle: 'dashed' }}>
+            <p className="text-xl text-white/40 font-bold">No models found matching your criteria.</p>
+            <button onClick={() => {setCategory('All'); setSearch(''); setOnlyOnline(false);}} className="text-primary mt-4 font-bold" style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}>Clear all filters</button>
           </div>
         ) : (
           filteredModels?.map((model, index) => (
@@ -113,4 +115,3 @@ export const Explore: React.FC = () => {
     </div>
   );
 };
-
