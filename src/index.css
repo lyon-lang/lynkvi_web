@@ -306,40 +306,73 @@ h1, h2, h3, h4 {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Responsive Utilities */
-.hidden {
-  display: none !important;
-}
-
-.flex {
-  display: flex !important;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
+/* Responsive & Layout Utilities */
+.hidden { display: none !important; }
+.flex { display: flex !important; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
 
 @media (min-width: 768px) {
-  .md\:flex {
-    display: flex !important;
-  }
-  .md\:hidden {
-    display: none !important;
-  }
+  .md\:flex { display: flex !important; }
+  .md\:hidden { display: none !important; }
 }
 
 @media (min-width: 1024px) {
-  .lg\:flex {
-    display: flex !important;
-  }
+  .lg\:flex { display: flex !important; }
+}
+
+.max-w-sm { max-width: 384px !important; }
+.max-w-md { max-width: 448px !important; }
+.max-w-lg { max-width: 512px !important; }
+.max-w-xl { max-width: 576px !important; }
+
+.w-full { width: 100% !important; }
+.h-full { height: 100% !important; }
+
+.flex-center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Form Styles */
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.input-glass {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 16px 16px 16px 52px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.input-glass:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 45, 85, 0.5);
+  box-shadow: 0 0 0 4px rgba(255, 45, 85, 0.1);
+}
+
+.input-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.input-glass:focus + .input-icon {
+  color: var(--primary);
 }
 
 /* Animations */
