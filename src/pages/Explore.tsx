@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Star, MessageCircle, Phone, MapPin, SlidersHorizontal, CheckCircle2 } from 'lucide-react';
+import { Search, SlidersHorizontal, CheckCircle2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { modelsService, type Model } from '../services/modelsService';
+import { modelsService } from '../services/modelsService';
 import { ModelCard } from '../components/ModelCard';
-import { Link } from 'react-router-dom';
 
 const CATEGORIES = ['All', 'Lifestyle', 'Gaming', 'Fitness', 'ASMR', 'Cosplay', 'Music'];
 

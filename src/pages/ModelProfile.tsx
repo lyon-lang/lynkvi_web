@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Star, MessageCircle, Phone, Heart, Share2, Shield, 
-  MapPin, Image as ImageIcon, Video, 
+  MapPin, Image as ImageIcon,
   Lock, ArrowLeft, MoreVertical, Flag, Ban, CreditCard, ChevronRight
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';

@@ -375,6 +375,68 @@ h1, h2, h3, h4 {
   color: var(--primary);
 }
 
+/* Premium Login UI */
+.login-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background: radial-gradient(at 0% 0%, hsla(339, 100%, 55%, 0.15) 0, transparent 50%), 
+              radial-gradient(at 100% 0%, hsla(271, 100%, 55%, 0.15) 0, transparent 50%),
+              radial-gradient(at 100% 100%, hsla(339, 100%, 55%, 0.1) 0, transparent 50%),
+              radial-gradient(at 0% 100%, hsla(271, 100%, 55%, 0.1) 0, transparent 50%),
+              #0a0a0f;
+  animation: bg-mesh 20s ease infinite;
+}
+
+@keyframes bg-mesh {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
+
+.glass-heavy {
+  background: rgba(18, 18, 24, 0.8);
+  backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 
+              0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-150%) rotate(45deg); }
+  100% { transform: translateX(150%) rotate(45deg); }
+}
+
+.social-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

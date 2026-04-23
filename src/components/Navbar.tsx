@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Phone, Globe, LogIn, User as UserIcon, LogOut, Settings, CreditCard, Menu, X } from 'lucide-react';
+import { MessageSquare, Phone, Globe, User as UserIcon, LogOut, Settings, CreditCard } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
